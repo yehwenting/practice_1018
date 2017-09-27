@@ -12,6 +12,8 @@ final int MYCAT_W = 220;
 final int MYCAT_H = 150;
 final int RESTART_W = 150;
 final int RESTART_H = 150;
+final int TIME = 600;
+PFont font;
 
 
 int gameState = 0; 
@@ -29,11 +31,12 @@ float t_inc = PI/15.0;
 final float A = 50.0; 
 float k =0;
 
-int time = 50; 
+ 
+int remainTime =600;
 
 void setup()
 {
-  size(1280,755);
+  size(1280,755,P2D);
   bg = loadImage("img/bg.png");
   fish = loadImage("img/fish.png");
   upBadCat = loadImage("img/upBadCat.png");
@@ -42,7 +45,9 @@ void setup()
   lose = loadImage("img/lose.png");
   win = loadImage("img/win.png");
   restart = loadImage("img/restart.png");
-  frameRate(10);
+  font = createFont("font/word.ttf", 56);
+  textFont(font);
+  frameRate(60);
 }
 
 void draw()
@@ -82,6 +87,7 @@ void draw()
           if(fishX+FISH_W > BADCAT_INIT_X*(i+1) && fishX < BADCAT_INIT_X*(i+1)+ BADCAT_W ){
           if(fishY < badCatY+BADCAT_H || fishY+FISH_H > badCatY+SPACE+BADCAT_H){
             gameState=1;
+            remainTime= TIME;
           }
           }
         }
@@ -94,15 +100,19 @@ void draw()
         image(myCat, MYCAT_X, MYCAT_Y);
         if(fishX > MYCAT_X){
           gameState = 2;
+          remainTime = TIME;
         }
         
         // Part III : set the time
-        time--;
-        if(time<0){
+        textAlign(LEFT, BOTTOM);
+        fill(0);
+        text(remainTime/60, 1150, 100);
+        remainTime--;
+        if(remainTime<0){
           gameState=1;
-          time = 300;
+          remainTime = TIME;
         }
-        println(time/10); 
+
             
         
         
